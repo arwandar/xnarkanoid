@@ -34,9 +34,10 @@ namespace XNArkanoid.Entites
 
         public bool Collision(Brick brick)
         {
-            if (brick.Rectangle.Intersects(this.Rectangle))
+            if (brick.visible && brick.Rectangle.Intersects(this.Rectangle))
             {
                 this.BallDirection.Y = -this.BallDirection.Y;
+                brick.visible = false;
                 return true;
             }
             return false;
