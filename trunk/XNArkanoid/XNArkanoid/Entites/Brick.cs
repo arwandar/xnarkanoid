@@ -11,12 +11,12 @@ namespace XNArkanoid.Entites
     class Brick
     {
         public Rectangle Rectangle;
-        public int Width { get; set; }
+        public Boolean visible { get; set; }
 
-        public Brick(Rectangle rectangle, int Width)
+        public Brick(Rectangle rectangle)
         {
             this.Rectangle = rectangle;
-            this.Width = Width;
+            this.visible = true;
         }
 
     }
