@@ -22,11 +22,10 @@ namespace XNArkanoid.Entites
             }
         }
 
-        public Barre(Rectangle rectangle, int speed, int width)
+        public Barre(Rectangle rectangle, int speed)
         {
             this.Rectangle = rectangle;
             this.Speed = speed;
-            this.Width = width;
         }
     }
 }
