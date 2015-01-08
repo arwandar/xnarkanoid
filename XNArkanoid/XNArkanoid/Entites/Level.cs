@@ -26,8 +26,9 @@ namespace XNArkanoid.Entites
             this.LevelId = levelId;
             this.content = content;
             this.Barre= new Barre(new Rectangle(150, 700, 80, 10), BarreSpeed);
-            this.Balls=new LinkedList<Ball>;
+            this.Balls=new LinkedList<Ball>();
             this.Balls.AddFirst(new Ball(new Rectangle(175, 680, 20, 20)));
+            this.LoadLevel();
         }
 
         private bool LoadLevel()
@@ -45,7 +46,7 @@ namespace XNArkanoid.Entites
                 String line;
                 int row = 0;
                 int brickwidth = 488 / width;
-                int brickHeight = 40;
+                //int brickHeight = 40;
                 while ((line = sr.ReadLine()) != null)
                 {
                     Char[] b = line.ToCharArray();
@@ -53,20 +54,15 @@ namespace XNArkanoid.Entites
                     {
                         if (b[i].Equals(' '))
                         {
-                            Brick tmpBrick = new Brick(new Rectangle(50 + (i * 32), 70 + (row * 32), 32, 32),
-                                Color.Transparent,
-                                content.Load<Texture2D>("white_tile"), ' ');
+                            Brick tmpBrick = new Brick(new Rectangle(50 + (i * 32), 70 + (row * 32), 32, 32));
                             tmpBrick.visible = false;
                             this.Bricks[row, i] = tmpBrick;
                         }
                         else
                         {
                             if (!b[i].Equals('#'))
-                                this.nbBricks++;
-                            this.Bricks[row, i] = new Brick(new Rectangle(50 + (i * 32), 70 + (row * 32), 32, 32),
-                                Color.White,
-                                content.Load<Texture2D>(@"levels/level" + this.LevelId + "/" + b[i]),
-                                b[i]);
+                                //this.nbBricks++;
+                            this.Bricks[row, i] = new Brick(new Rectangle(50 + (i * 32), 70 + (row * 32), 32, 32));
                         }
                     }
                     row++;
