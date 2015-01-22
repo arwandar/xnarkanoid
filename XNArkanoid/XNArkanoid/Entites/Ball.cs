@@ -13,6 +13,7 @@ namespace XNArkanoid.Entites
         public Rectangle rectangle;
         private Vector2 ballDirection;
         private float speed;
+        private Boolean isMoving;
         private Texture2D texture;
 
 
@@ -24,6 +25,15 @@ namespace XNArkanoid.Entites
         public void setSpeed(float speed)
         {
             this.speed = speed;
+        }
+
+        public Boolean getIsMoving()
+        {
+            return this.isMoving;
+        }
+        public void setIsMoving(Boolean isMoving)
+        {
+            this.isMoving = isMoving;
         }
 
         public Texture2D getTexture()
