@@ -11,29 +11,79 @@ namespace XNArkanoid.Entites
 {
     class Level
     {
-        public Barre Barre { get; set; }
-        public LinkedList<Ball> Balls { get; set; }
+        private Barre barre;
+        private int balls;
         public Brick[,] Bricks { get; set; }
         private int width;
         private int height;
-        public int LevelId { get; set; }
+        private int levelId;
         private ContentManager content;
 
+
+        #region Getters & Setters
+        public Barre getBarre()
+        {
+            return this.barre;
+        }
+        public void setBarre(Barre barre)
+        {
+            this.barre = barre;
+        }
+
+        public int getBalls()
+        {
+            return this.balls;
+        }
+        public void setBalls(int balls)
+        {
+            this.balls = balls;
+        }
+
+        public int getWidth()
+        {
+            return this.width;
+        }
+        public void setWidth(int width)
+        {
+            this.width = width;
+        }
+
+        public int getHeight()
+        {
+            return this.height;
+        }
+        public void setHeight(int height)
+        {
+            this.height = height;
+        }
+
+        public int getLevelId()
+        {
+            return this.levelId;
+        }
+        public void setLevelId(int levelId)
+        {
+            this.levelId = levelId;
+        }
+        #endregion
+
+        #region Constructeur
         public Level(ContentManager content, int levelId)
         {
             int BarreSpeed = 10;
-
-            this.LevelId = levelId;
+            this.levelId = levelId;
             this.content = content;
-            this.Barre= new Barre(new Rectangle(150, 700, 80, 10), BarreSpeed);
-            this.Balls=new LinkedList<Ball>();
-            this.Balls.AddFirst(new Ball(new Rectangle(175, 680, 20, 20)));
+            this.barre = new Barre(new Rectangle(150, 700, 80, 10), BarreSpeed);
+            this.balls = 3;
             this.LoadLevel();
         }
+        #endregion
 
+
+        #region Méthodes de Gestion
         private bool LoadLevel()
         {
-            String levelPath = String.Format("levels/level{0}/level{0}.txt", this.LevelId);
+            String levelPath = String.Format("levels/level{0}/level{0}.txt", this.levelId);
             levelPath = "Content/" + levelPath;
 
             try
@@ -55,14 +105,14 @@ namespace XNArkanoid.Entites
                         if (b[i].Equals(' '))
                         {
                             Brick tmpBrick = new Brick(new Rectangle(50 + (i * 32), 70 + (row * 32), 32, 32));
-                            tmpBrick.visible = false;
+                            tmpBrick.setVisible(false);
                             this.Bricks[row, i] = tmpBrick;
                         }
                         else
                         {
                             if (!b[i].Equals('#'))
                                 //this.nbBricks++;
-                            this.Bricks[row, i] = new Brick(new Rectangle(50 + (i * 32), 70 + (row * 32), 32, 32));
+                                this.Bricks[row, i] = new Brick(new Rectangle(50 + (i * 32), 70 + (row * 32), 32, 32));
                         }
                     }
                     row++;
@@ -76,6 +126,7 @@ namespace XNArkanoid.Entites
                 return false;
             }
         }
+        #endregion
 
 
     }

@@ -10,14 +10,29 @@ namespace XNArkanoid.Entites
 {
     class Brick
     {
-        public Rectangle Rectangle;
-        public Boolean visible { get; set; }
+        public Rectangle rectangle;
+        private Boolean visible;
 
+
+        #region Getters & Setters
+        public Boolean getVisible()
+        {
+            return this.visible;
+        }
+        public void setVisible(Boolean visible)
+        {
+            this.visible = visible;
+        }
+        #endregion
+
+
+        #region Constructeur
         public Brick(Rectangle rectangle)
         {
-            this.Rectangle = rectangle;
+            this.rectangle = rectangle;
             this.visible = true;
         }
+        #endregion
 
     }
 }
