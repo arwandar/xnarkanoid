@@ -126,7 +126,15 @@ namespace XNArkanoid.Entites
                 return false;
             }
         }
+        
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            //TODO
+            spriteBatch.Draw(this.barre.getTexture(), this.barre.Rectangle, Color.Black);
+        }
+        
         #endregion
+
 
 
     }

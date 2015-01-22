@@ -13,6 +13,7 @@ namespace XNArkanoid.Entites
         public Rectangle Rectangle;
         private float speed;
         private int width;
+        private Texture2D texture;
 
 
         #region Getters & Setters
@@ -33,6 +34,16 @@ namespace XNArkanoid.Entites
         {
             this.width = width;
         }
+
+        public Texture2D getTexture()
+        {
+            return this.texture;
+        }
+
+        public void setTexture(Texture2D texture)
+        {
+            this.texture = texture;
+        }
         #endregion
 
 
@@ -41,6 +52,13 @@ namespace XNArkanoid.Entites
         {
             this.Rectangle = rectangle;
             this.speed = speed;
+        }
+        #endregion
+
+        #region Méthode
+        public void deplacer()
+        {
+
         }
         #endregion
     }

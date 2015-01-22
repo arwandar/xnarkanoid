@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using XNArkanoid.Entites;
 
 namespace XNArkanoid
 {
@@ -18,6 +19,12 @@ namespace XNArkanoid
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        MouseState oldMouseState, mouseState;
+        int hauteurEcran, largeurEcran;
+
+        Level level;
+
+        
 
         public Game1()
         {
@@ -34,6 +41,15 @@ namespace XNArkanoid
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            //Etat initial de la souris
+            mouseState = Mouse.GetState();
+
+            this.Window.Title = "XNArkanoid";
+
+            int hauteurEcran = this.graphics.PreferredBackBufferHeight;
+            int largeurEcran = this.graphics.PreferredBackBufferWidth;
+
+            this.level = new Level(Content, 1);
 
             base.Initialize();
         }
@@ -48,6 +64,7 @@ namespace XNArkanoid
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            this.level.getBarre().setTexture(Content.Load<Texture2D>("images/barre"));
         }
 
         /// <summary>
@@ -71,6 +88,18 @@ namespace XNArkanoid
                 this.Exit();
 
             // TODO: Add your update logic here
+            //prise en compte du mouvement de la souris
+            oldMouseState = mouseState;
+            mouseState = Mouse.GetState();
+            if (oldMouseState.X > mouseState.X)
+            {
+                
+            }
+            if (oldMouseState.X < mouseState.X)
+            {
+                //Console.WriteLine("la souris a bougé vers la droite");
+            }
+            
 
             base.Update(gameTime);
         }
@@ -81,7 +110,15 @@ namespace XNArkanoid
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.FloralWhite);
+
+            spriteBatch.Begin();
+            Texture2D dummyTexture = new Texture2D(GraphicsDevice, 1, 1);
+            dummyTexture.SetData(new Color[] { Color.White });
+
+            this.level.Draw(spriteBatch);
+
+            spriteBatch.End();
 
             // TODO: Add your drawing code here
 
