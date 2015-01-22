@@ -11,21 +11,37 @@ namespace XNArkanoid.Entites
     class Barre
     {
         public Rectangle Rectangle;
-        public int Speed { get; set; }
-        public int Width
+        private float speed;
+        private int width;
+
+
+        #region Getters & Setters
+        public float getSpeed()
         {
-            get;
-            set
-            {
-                this.Width = value;
-                this.Rectangle.Width = value;
-            }
+            return this.speed;
+        }
+        public void setSpeed(float speed)
+        {
+            this.speed = speed;
         }
 
+        public int getWidth()
+        {
+            return this.width;
+        }
+        public void setWidth(int width)
+        {
+            this.width = width;
+        }
+        #endregion
+
+
+        #region Constructeur
         public Barre(Rectangle rectangle, int speed)
         {
             this.Rectangle = rectangle;
-            this.Speed = speed;
+            this.speed = speed;
         }
+        #endregion
     }
 }
