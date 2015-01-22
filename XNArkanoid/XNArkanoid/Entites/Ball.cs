@@ -11,8 +11,9 @@ namespace XNArkanoid.Entites
     class Ball
     {
         public Rectangle rectangle;
-        public Vector2 ballDirection;
+        private Vector2 ballDirection;
         private float speed;
+        private Texture2D texture;
 
 
         #region Getters & Setters
@@ -23,6 +24,15 @@ namespace XNArkanoid.Entites
         public void setSpeed(float speed)
         {
             this.speed = speed;
+        }
+
+        public Texture2D getTexture()
+        {
+            return this.texture;
+        }
+        public void setTexture(Texture2D texture)
+        {
+            this.texture = texture;
         }
         #endregion
 

@@ -12,6 +12,7 @@ namespace XNArkanoid.Entites
     {
         public Rectangle rectangle;
         private Boolean visible;
+        private Texture2D texture;
 
 
         #region Getters & Setters
@@ -22,6 +23,15 @@ namespace XNArkanoid.Entites
         public void setVisible(Boolean visible)
         {
             this.visible = visible;
+        }
+
+        public Texture2D getTexture()
+        {
+            return this.texture;
+        }
+        public void setTexture(Texture2D texture)
+        {
+            this.texture = texture;
         }
         #endregion
 
