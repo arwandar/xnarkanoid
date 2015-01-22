@@ -10,23 +10,37 @@ namespace XNArkanoid.Entites
 {
     class Ball
     {
-        public Rectangle Rectangle;
-        public float Speed { get; set; }
-        //public Vector2 spriteSpeed;
-        public Vector2 BallDirection;
+        public Rectangle rectangle;
+        public Vector2 ballDirection;
+        private float speed;
 
 
+        #region Getters & Setters
+        public float getSpeed()
+        {
+            return this.speed;
+        }
+        public void setSpeed(float speed)
+        {
+            this.speed = speed;
+        }
+        #endregion
+
+
+        #region Constructeur
         public Ball(Rectangle rectangle)
         {
-            this.Rectangle = rectangle;
+            this.rectangle = rectangle;
         }
+        #endregion
 
 
-        public bool Collision (Barre barre)
+        #region Méthodes de gestion
+        public bool Collision(Barre barre)
         {
-            if (barre.Rectangle.Intersects(this.Rectangle))
+            if (barre.Rectangle.Intersects(this.rectangle))
             {
-                this.BallDirection.Y = -this.BallDirection.Y;
+                this.ballDirection.Y = -this.ballDirection.Y;
                 return true;
             }
             return false;
@@ -34,14 +48,15 @@ namespace XNArkanoid.Entites
 
         public bool Collision(Brick brick)
         {
-            if (brick.visible && brick.Rectangle.Intersects(this.Rectangle))
+            if (brick.getVisible() && brick.rectangle.Intersects(this.rectangle))
             {
-                this.BallDirection.Y = -this.BallDirection.Y;
-                brick.visible = false;
+                this.ballDirection.Y = -this.ballDirection.Y;
+                brick.setVisible(false);
                 return true;
             }
             return false;
         }
+        #endregion
 
     }
 }
