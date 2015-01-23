@@ -71,7 +71,7 @@ namespace XNArkanoid
                     this.level.Bricks[i, j].setTexture(Content.Load<Texture2D>("images/brick_green"));
                 }
             }
-
+            this.level.getBall().setTexture(Content.Load<Texture2D>("images/balle"));
         }
 
         /// <summary>
@@ -113,15 +113,10 @@ namespace XNArkanoid
             GraphicsDevice.Clear(Color.FloralWhite);
 
             spriteBatch.Begin();
-            Texture2D dummyTexture = new Texture2D(GraphicsDevice, 1, 1);
-            dummyTexture.SetData(new Color[] { Color.White });
 
             this.level.Draw(spriteBatch);
 
             spriteBatch.End();
-
-            // TODO: Add your drawing code here
-
             base.Draw(gameTime);
         }
     }
