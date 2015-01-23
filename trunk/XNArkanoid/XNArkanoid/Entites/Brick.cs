@@ -8,11 +8,9 @@ using Microsoft.Xna.Framework.Content;
 
 namespace XNArkanoid.Entites
 {
-    class Brick
+    class Brick : Element
     {
-        public Rectangle rectangle;
         private Boolean visible;
-        private Texture2D texture;
 
 
         #region Getters & Setters
@@ -25,11 +23,7 @@ namespace XNArkanoid.Entites
             this.visible = visible;
         }
 
-        public Texture2D getTexture()
-        {
-            return this.texture;
-        }
-        public void setTexture(Texture2D texture)
+        new public void setTexture(Texture2D texture)
         {
             this.texture = texture;
         }
@@ -37,10 +31,10 @@ namespace XNArkanoid.Entites
 
 
         #region Constructeur
-        public Brick(Rectangle rectangle)
+        public Brick(Rectangle rectangle, Level level) :base(level)
         {
-            this.rectangle = rectangle;
             this.visible = true;
+            this.rectangle = rectangle;
         }
         #endregion
 

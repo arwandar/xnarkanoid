@@ -8,12 +8,9 @@ using Microsoft.Xna.Framework.Content;
 
 namespace XNArkanoid.Entites
 {
-    class Barre
+    class Barre : Element
     {
-        public Rectangle Rectangle;
         private float speed;
-        private int width;
-        private Texture2D texture;
 
 
         #region Getters & Setters
@@ -25,40 +22,24 @@ namespace XNArkanoid.Entites
         {
             this.speed = speed;
         }
-
-        public int getWidth()
-        {
-            return this.width;
-        }
-        public void setWidth(int width)
-        {
-            this.width = width;
-        }
-
-        public Texture2D getTexture()
-        {
-            return this.texture;
-        }
-
-        public void setTexture(Texture2D texture)
-        {
-            this.texture = texture;
-        }
         #endregion
 
 
         #region Constructeur
-        public Barre(Rectangle rectangle, int speed)
+        public Barre(int speed, Level level) : base(level)
         {
-            this.Rectangle = rectangle;
             this.speed = speed;
         }
         #endregion
 
         #region Méthode
-        public void deplacer()
+        public void deplacer(int deplacement)
         {
+            float depAcVitesse = ((float) deplacement) * this.speed;
+            this.rectangle.X = this.rectangle.X - (int) depAcVitesse;
 
+            this.rectangle.X = (this.rectangle.X < 0) ? 0 : this.rectangle.X;
+            this.rectangle.X = (this.rectangle.X + this.rectangle.Width > this.level.getLargeurEcran()) ? this.level.getLargeurEcran() - this.rectangle.Width : this.rectangle.X;
         }
         #endregion
     }

@@ -17,7 +17,7 @@ namespace XNArkanoid.Entites
         private int width;
         private int height;
         private int levelId;
-        private ContentManager content;
+        private int hauteurEcran, largeurEcran;
 
 
         #region Getters & Setters
@@ -65,23 +65,34 @@ namespace XNArkanoid.Entites
         {
             this.levelId = levelId;
         }
+
+        public int getHauteurEcran()
+        {
+            return this.hauteurEcran;
+        }
+
+        public int getLargeurEcran()
+        {
+            return this.largeurEcran;
+        }
         #endregion
 
         #region Constructeur
-        public Level(ContentManager content, int levelId)
+        public Level(int levelId, int largeurEcran, int hauteurEcran)
         {
-            int BarreSpeed = 10;
+            int BarreSpeed = 1;
             this.levelId = levelId;
-            this.content = content;
-            this.barre = new Barre(new Rectangle(150, 700, 80, 10), BarreSpeed);
+            this.barre = new Barre(BarreSpeed, this);
             this.balls = 3;
-            this.LoadLevel();
+            this.LoadLevel(hauteurEcran);
+            this.hauteurEcran = hauteurEcran;
+            this.largeurEcran = largeurEcran;
         }
         #endregion
 
 
         #region Méthodes de Gestion
-        private bool LoadLevel()
+        private bool LoadLevel(int hauteurEcran)
         {
             String levelPath = String.Format("levels/level{0}/level{0}.txt", this.levelId);
             levelPath = "Content/" + levelPath;
@@ -95,7 +106,7 @@ namespace XNArkanoid.Entites
                 this.Bricks = new Brick[height, width];
                 String line;
                 int row = 0;
-                int brickwidth = 488 / width;
+                int brickwidth = hauteurEcran / width;
                 //int brickHeight = 40;
                 while ((line = sr.ReadLine()) != null)
                 {
@@ -104,15 +115,15 @@ namespace XNArkanoid.Entites
                     {
                         if (b[i].Equals(' '))
                         {
-                            Brick tmpBrick = new Brick(new Rectangle(50 + (i * 32), 70 + (row * 32), 32, 32));
-                            tmpBrick.setVisible(false);
+                            Brick tmpBrick = new Brick(new Rectangle(50 + (i * 32), 70 + (row * 32), 32, 32), this);
+                           // tmpBrick.setVisible(false);
                             this.Bricks[row, i] = tmpBrick;
                         }
                         else
                         {
                             if (!b[i].Equals('#'))
                                 //this.nbBricks++;
-                                this.Bricks[row, i] = new Brick(new Rectangle(50 + (i * 32), 70 + (row * 32), 32, 32));
+                                this.Bricks[row, i] = new Brick(new Rectangle(50 + (i * 32), 70 + (row * 32), 32, 32), this);
                         }
                     }
                     row++;
@@ -129,8 +140,20 @@ namespace XNArkanoid.Entites
         
         public void Draw(SpriteBatch spriteBatch)
         {
-            //TODO
-            spriteBatch.Draw(this.barre.getTexture(), this.barre.Rectangle, Color.Black);
+            this.barre.Draw(spriteBatch);
+            for (int i = 0; i < this.Bricks.GetLength(0); i++)
+            {
+                for (int j = 0; j < this.Bricks.GetLength(1); j++)
+                {
+                    this.Bricks[i, j].Draw(spriteBatch);
+                }
+            }
+        }
+
+        public void Update(int deplacementSouris)
+        {
+            this.barre.deplacer(deplacementSouris);
+
         }
         
         #endregion

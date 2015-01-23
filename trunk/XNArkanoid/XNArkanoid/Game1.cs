@@ -24,7 +24,6 @@ namespace XNArkanoid
 
         Level level;
 
-        
 
         public Game1()
         {
@@ -46,10 +45,10 @@ namespace XNArkanoid
 
             this.Window.Title = "XNArkanoid";
 
-            int hauteurEcran = this.graphics.PreferredBackBufferHeight;
-            int largeurEcran = this.graphics.PreferredBackBufferWidth;
+            this.hauteurEcran = this.graphics.PreferredBackBufferHeight;
+            this.largeurEcran = this.graphics.PreferredBackBufferWidth;
 
-            this.level = new Level(Content, 1);
+            this.level = new Level(1, largeurEcran, hauteurEcran);
 
             base.Initialize();
         }
@@ -65,6 +64,14 @@ namespace XNArkanoid
 
             // TODO: use this.Content to load your game content here
             this.level.getBarre().setTexture(Content.Load<Texture2D>("images/barre"));
+            for (int i = 0; i < this.level.Bricks.GetLength(0); i++)
+            {
+                for (int j =0; j < this.level.Bricks.GetLength(1); j++)
+                {
+                    this.level.Bricks[i, j].setTexture(Content.Load<Texture2D>("images/brick_green"));
+                }
+            }
+
         }
 
         /// <summary>
@@ -89,17 +96,10 @@ namespace XNArkanoid
 
             // TODO: Add your update logic here
             //prise en compte du mouvement de la souris
-            oldMouseState = mouseState;
-            mouseState = Mouse.GetState();
-            if (oldMouseState.X > mouseState.X)
-            {
-                
-            }
-            if (oldMouseState.X < mouseState.X)
-            {
-                //Console.WriteLine("la souris a bougé vers la droite");
-            }
-            
+            this.oldMouseState = this.mouseState;
+            this.mouseState = Mouse.GetState();
+            int deplacement = this.oldMouseState.X - this.mouseState.X;
+            this.level.Update(deplacement);
 
             base.Update(gameTime);
         }

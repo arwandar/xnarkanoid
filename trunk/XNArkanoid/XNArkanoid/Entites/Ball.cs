@@ -8,13 +8,11 @@ using Microsoft.Xna.Framework.Content;
 
 namespace XNArkanoid.Entites
 {
-    class Ball
+    class Ball : Element
     {
-        public Rectangle rectangle;
         private Vector2 ballDirection;
         private float speed;
         private Boolean isMoving;
-        private Texture2D texture;
 
 
         #region Getters & Setters
@@ -35,22 +33,13 @@ namespace XNArkanoid.Entites
         {
             this.isMoving = isMoving;
         }
-
-        public Texture2D getTexture()
-        {
-            return this.texture;
-        }
-        public void setTexture(Texture2D texture)
-        {
-            this.texture = texture;
-        }
         #endregion
 
 
         #region Constructeur
-        public Ball(Rectangle rectangle)
+        public Ball(Level level) : base (level)
         {
-            this.rectangle = rectangle;
+
         }
         #endregion
 
@@ -58,7 +47,7 @@ namespace XNArkanoid.Entites
         #region Méthodes de gestion
         public bool Collision(Barre barre)
         {
-            if (barre.Rectangle.Intersects(this.rectangle))
+            if (barre.getRectangle().Intersects(this.rectangle))
             {
                 this.ballDirection.Y = -this.ballDirection.Y;
                 return true;
@@ -68,7 +57,7 @@ namespace XNArkanoid.Entites
 
         public bool Collision(Brick brick)
         {
-            if (brick.getVisible() && brick.rectangle.Intersects(this.rectangle))
+            if (brick.getVisible() && brick.getRectangle().Intersects(this.rectangle))
             {
                 this.ballDirection.Y = -this.ballDirection.Y;
                 brick.setVisible(false);
