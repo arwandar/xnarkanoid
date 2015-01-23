@@ -32,7 +32,6 @@ namespace XNArkanoid.Entites
             int x = this.level.getLargeurEcran() / 2 - texture.Width / 2;
             int y = this.level.getHauteurEcran() - texture.Height;
             this.rectangle = new Rectangle(x, y, texture.Width, texture.Height);
-
         }
 
         public Rectangle getRectangle()

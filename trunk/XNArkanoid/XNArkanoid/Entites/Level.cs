@@ -13,6 +13,7 @@ namespace XNArkanoid.Entites
     {
         private Barre barre;
         private int balls;
+        private Ball ball;
         public Brick[,] Bricks { get; set; }
         private int width;
         private int height;
@@ -75,6 +76,11 @@ namespace XNArkanoid.Entites
         {
             return this.largeurEcran;
         }
+
+        public Ball getBall()
+        {
+            return this.ball;
+        }
         #endregion
 
         #region Constructeur
@@ -87,6 +93,7 @@ namespace XNArkanoid.Entites
             this.LoadLevel(hauteurEcran);
             this.hauteurEcran = hauteurEcran;
             this.largeurEcran = largeurEcran;
+            this.ball = new Ball(this);
         }
         #endregion
 
@@ -148,6 +155,7 @@ namespace XNArkanoid.Entites
                     this.Bricks[i, j].Draw(spriteBatch);
                 }
             }
+            this.ball.Draw(spriteBatch);
         }
 
         public void Update(int deplacementSouris)
