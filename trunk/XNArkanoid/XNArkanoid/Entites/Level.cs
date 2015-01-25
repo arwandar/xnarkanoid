@@ -19,6 +19,8 @@ namespace XNArkanoid.Entites
         private int height;
         private int levelId;
         protected int hauteurEcran, largeurEcran;
+        private int score;
+        private Boolean isGamePlaying;
 
 
         #region Getters & Setters
@@ -80,6 +82,24 @@ namespace XNArkanoid.Entites
         public int getLargeurEcran()
         {
             return this.largeurEcran;
+        }
+
+        public int getScore()
+        {
+            return this.score;
+        }
+        public void setScore(int score)
+        {
+            this.score = score;
+        }
+
+        public Boolean getIsGamePlaying()
+        {
+            return this.isGamePlaying;
+        }
+        public void setIsGamePlaying(Boolean isGamePlaying)
+        {
+            this.isGamePlaying = isGamePlaying;
         }
         #endregion
 
