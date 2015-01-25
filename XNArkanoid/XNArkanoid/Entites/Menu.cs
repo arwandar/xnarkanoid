@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,9 @@ namespace XNArkanoid.Entites
             this.listeBtn = new List<Btn>();
 
             //btn pour demarrer une partie
-            Btn demarrerPartie = new Btn(this, typeBtn.btnJouer);
+            Btn demarrerPartie = new Btn(this, typeBtn.btnJouer, new Vector2(100, 100));
+            Btn quitter = new Btn(this, typeBtn.btnExit, new Vector2(200, 200));
+            this.listeBtn.Add(quitter);
             this.listeBtn.Add(demarrerPartie);
         }
         #endregion
@@ -28,7 +31,7 @@ namespace XNArkanoid.Entites
         #region Méthode
         public void Draw(SpriteBatch spriteBatch)
         {
-            foreach(Btn btn in listeBtn)
+            foreach (Btn btn in listeBtn)
             {
                 btn.Draw(spriteBatch);
             }
@@ -36,7 +39,7 @@ namespace XNArkanoid.Entites
 
         public void setTextureBtn(List<Texture2D> listeTexture)
         {
-            foreach (Btn btn in listeBtn)
+            foreach (Btn btn in this.listeBtn)
             {
                 foreach (Texture2D texture in listeTexture)
                 {
@@ -45,7 +48,14 @@ namespace XNArkanoid.Entites
                         switch (texture.Name)
                         {
                             case "btnJouer":
-                                if (btn.getType() == typeBtn.btnJouer){
+                                if (btn.getType() == typeBtn.btnJouer)
+                                {
+                                    btn.setTexture(texture);
+                                }
+                                break;
+                            case "btnQuitter":
+                                if (btn.getType() == typeBtn.btnExit)
+                                {
                                     btn.setTexture(texture);
                                 }
                                 break;
@@ -55,6 +65,18 @@ namespace XNArkanoid.Entites
                     }
                 }
             }
+        }
+
+        public typeBtn getBtnClick(Microsoft.Xna.Framework.Input.MouseState mouseState)
+        {
+            typeBtn type = typeBtn.nul;
+
+            foreach (Btn btn in this.listeBtn)
+            {
+                type = btn.isMouseIn(mouseState) ? btn.getType() : type;
+            }
+
+            return type;
         }
         #endregion
     }

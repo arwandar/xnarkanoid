@@ -48,6 +48,16 @@
       <Processor>PassThroughProcessor</Processor>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Compile Include="Ravie.spritefont">
+      <Name>Ravie14</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
+    <Compile Include="Ravie - Copier.spritefont">
+      <Name>Ravie48</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="images\balle.png">
@@ -57,29 +67,42 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="images\brick_green - Copier.png">
-      <Name>brick_greenb</Name>
+    <None Include="levels\level2\level2.txt">
+      <Name>level2</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="levels\level3\level3.txt">
+      <Name>level3</Name>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="images\btnJouer.png">
+      <Name>btnJouer</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="images\btnQuitter.png">
+      <Name>btnQuitter</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="images\brick_green - Copier %282%29.png">
-      <Name>brick_greent</Name>
+    <Compile Include="images\brick_red.png">
+      <Name>brick_red</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="images\brick_green - Copier %283%29.png">
-      <Name>brick_greenq</Name>
+    <Compile Include="images\brick_black.png">
+      <Name>brick_black</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="images\brick_green - Copier %284%29.png">
-      <Name>brick_greenc</Name>
+    <Compile Include="images\brick_pink.png">
+      <Name>brick_pink</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

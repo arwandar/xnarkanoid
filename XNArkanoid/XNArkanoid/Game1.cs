@@ -23,11 +23,14 @@ namespace XNArkanoid
         int hauteurEcran, largeurEcran;
 
         List<Texture2D> listeTexture;
+        SpriteFont fontRavie14;
+        SpriteFont fontRavie48;
 
         Level level;
         Menu menu;
 
-        enum listeEcran { menu, level };
+
+        enum listeEcran { menu, level, gameover, niveausuivant };
         listeEcran ecran;
 
         public Game1()
@@ -72,14 +75,17 @@ namespace XNArkanoid
 
             // TODO: use this.Content to load your game content here
             this.addTexture(Content.Load<Texture2D>("images/barre"), "barre", String.Empty);
-            this.addTexture(Content.Load<Texture2D>("images/brick_greent"), "brick", "brickNormale");
-            this.addTexture(Content.Load<Texture2D>("images/brick_greenq"), "brick", "brickIncassable");
-            this.addTexture(Content.Load<Texture2D>("images/brick_greenc"), "brick", "brickBonus");
-            this.addTexture(Content.Load<Texture2D>("images/brick_greenb"), "brick", "brickVies");
             this.addTexture(Content.Load<Texture2D>("images/balle"), "balle", String.Empty);
-            this.addTexture(Content.Load<Texture2D>("images/brick_green"), "btn", "btnJouer");
+            this.addTexture(Content.Load<Texture2D>("images/brick_green"), "brick", "brickNormale");
+            this.addTexture(Content.Load<Texture2D>("images/brick_black"), "brick", "brickIncassable");
+            this.addTexture(Content.Load<Texture2D>("images/brick_pink"), "brick", "brickBonus");
+            this.addTexture(Content.Load<Texture2D>("images/brick_red"), "brick", "brickVies");
+            this.addTexture(Content.Load<Texture2D>("images/btnJouer"), "btn", "btnJouer");
+            this.addTexture(Content.Load<Texture2D>("images/btnQuitter"), "btn", "btnQuitter");
 
             this.menu.setTextureBtn(this.listeTexture);
+            this.fontRavie14 = Content.Load<SpriteFont>("Ravie14");
+            this.fontRavie48 = Content.Load<SpriteFont>("Ravie48");
         }
 
         private void addTexture(Texture2D texture, String tag, String name)
@@ -113,10 +119,10 @@ namespace XNArkanoid
             switch (ecran)
             {
                 case listeEcran.menu:
+                    this.IsMouseVisible = true;
                     if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                     {
-                        typeBtn btnClick = 0;
-                        btnClick = typeBtn.btnJouer;
+                        typeBtn btnClick = this.menu.getBtnClick(Mouse.GetState());
                         switch (btnClick)
                         {
                             case typeBtn.btnJouer:
@@ -124,6 +130,7 @@ namespace XNArkanoid
                                 this.ecran = listeEcran.level;
                                 break;
                             case typeBtn.btnExit:
+                                this.Exit();
                                 break;
                             default:
                                 break;
@@ -135,7 +142,37 @@ namespace XNArkanoid
                     this.oldMouseState = this.mouseState;
                     this.mouseState = Mouse.GetState();
                     int deplacement = this.oldMouseState.X - this.mouseState.X;
-                    this.level.Update(deplacement);
+                    if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                    {
+                        this.level.getBall().setIsMoving(true);
+                    }
+                    int finLevel = this.level.Update(deplacement);
+
+                    if (finLevel == 0)
+                    {
+                        this.ecran = listeEcran.niveausuivant;
+                    }
+                    else if (finLevel == -1)
+                    {
+                        this.ecran = listeEcran.gameover;
+                    }
+
+                    break;
+                case listeEcran.gameover:
+                    if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                    {
+                        this.ecran = listeEcran.menu;
+                    }
+                    break;
+                case listeEcran.niveausuivant:
+                    if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                    {
+                        int oldScore = this.level.getScore();
+                        int levelnb = this.level.getLevelId() + 1;
+                        this.level = new Level(levelnb, this.largeurEcran, this.hauteurEcran, this.listeTexture);
+                        this.level.setScore(oldScore);
+                        this.ecran = listeEcran.level;
+                    }
                     break;
                 default:
                     this.Exit();
@@ -160,7 +197,14 @@ namespace XNArkanoid
                     this.menu.Draw(spriteBatch);
                     break;
                 case listeEcran.level:
-                    this.level.Draw(spriteBatch);
+                    this.level.Draw(spriteBatch, fontRavie14);
+                    break;
+                case listeEcran.gameover:
+                    this.level.Draw(spriteBatch, fontRavie14);
+                    spriteBatch.DrawString(fontRavie48, "Game Over", new Vector2(this.largeurEcran / 2 - 200, this.hauteurEcran / 2 - 50), Color.Red);
+                    break;
+                case listeEcran.niveausuivant:
+                    this.level.Draw(spriteBatch, fontRavie14);
                     break;
                 default:
                     this.Exit();
