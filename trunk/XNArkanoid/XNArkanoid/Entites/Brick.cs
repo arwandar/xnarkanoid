@@ -11,8 +11,10 @@ namespace XNArkanoid.Entites
     enum typeBrick { normale, incassable, bonus, plusieursvies };
     class Brick : Element
     {
+        #region Déclarations
         private int pdv;
         typeBrick type;
+        #endregion
 
         #region Getters & Setters
         public int getPdv()
@@ -35,13 +37,13 @@ namespace XNArkanoid.Entites
         }
         #endregion
 
-
         #region Constructeur
         public Brick(Rectangle rectangle, Level level, int pdv)
             : base(level)
         {
             this.rectangle = rectangle;
             this.pdv = pdv;
+            //Attribue le type de la brique en fonction de la valeur lue
             switch (pdv)
             {
                 case -2:
@@ -58,9 +60,7 @@ namespace XNArkanoid.Entites
                     this.type = typeBrick.plusieursvies;
                     break;
             }
-
         }
         #endregion
-
     }
 }

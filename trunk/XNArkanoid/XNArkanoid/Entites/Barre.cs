@@ -10,8 +10,9 @@ namespace XNArkanoid.Entites
 {
     class Barre : Element
     {
+        #region Déclarations
         private float speed;
-
+        #endregion
 
         #region Getters & Setters
         public float getSpeed()
@@ -31,7 +32,6 @@ namespace XNArkanoid.Entites
         }
         #endregion
 
-
         #region Constructeur
         public Barre(int speed, Level level)
             : base(level)
@@ -40,18 +40,26 @@ namespace XNArkanoid.Entites
         }
         #endregion
 
-        #region Méthode
+        #region Méthodes de gestion
+        /// <summary>
+        /// Réinitialise la position de la barre en cas de perte de la balle
+        /// </summary>
         public void reInitPosition()
         {
             this.rectangle.X = this.level.getLargeurEcran() / 2 - this.texture.Width / 2;
             this.rectangle.Y = this.level.getHauteurEcran() - this.texture.Height;
         }
 
+        /// <summary>
+        /// Gère le déplacement de la barre 
+        /// </summary>
+        /// <param name="deplacement"></param>
         public void deplacer(int deplacement)
         {
             float depAcVitesse = ((float)deplacement) * this.speed;
-            this.rectangle.X = this.rectangle.X - (int)depAcVitesse;
+            this.rectangle.X -= (int)depAcVitesse;
 
+            //Empêche la barre de sortir de l'écran
             this.rectangle.X = (this.rectangle.X < 0) ? 0 : this.rectangle.X;
             this.rectangle.X = (this.rectangle.X + this.rectangle.Width > this.level.getLargeurEcran()) ? this.level.getLargeurEcran() - this.rectangle.Width : this.rectangle.X;
         }
