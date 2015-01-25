@@ -36,8 +36,8 @@ namespace XNArkanoid.Entites
         new public void setTexture(Texture2D texture)
         {
             base.setTexture(texture);
-            this.rectangle.X = this.level.getLargeurEcran() / 2 - texture.Width;// / 2;
-            this.rectangle.Y = this.level.getBarre().getRectangle().Height + 2 * texture.Height;
+            this.rectangle.X = this.level.getLargeurEcran() / 2 - texture.Width / 2;
+            this.rectangle.Y = this.level.getBarre().getRectangle().Y - 1;
         }
         #endregion
 
@@ -48,7 +48,7 @@ namespace XNArkanoid.Entites
         {
             this.speed = 0.3F;
             this.ballDirection.X = 10;
-            this.ballDirection.Y = 10;
+            this.ballDirection.Y = -10;
         }
         #endregion
 
@@ -105,19 +105,18 @@ namespace XNArkanoid.Entites
             {
                 this.ballDirection.Y = -this.ballDirection.Y;
             }
-            //GODMODE ACTIVATED
             if (newY > this.level.getHauteurEcran())
             {
-               this.ballDirection.Y = -this.ballDirection.Y;
-                this.level.setBalls(this.level.getBalls()-1);
+                this.ballDirection.Y = -this.ballDirection.Y;
+                this.level.setBalls(this.level.getBalls() - 1);
                 if (this.level.getBalls() == 0)
                 {
                     return false;
                 }
-                this.rectangle.X = this.level.getLargeurEcran() / 2 - texture.Width;// / 2;
-                this.rectangle.Y = this.level.getBarre().getRectangle().Height + 2 * texture.Height;
+                this.rectangle.X = this.level.getLargeurEcran() / 2 - texture.Width / 2;
+                this.rectangle.Y = this.level.getBarre().getRectangle().Y - this.texture.Height - 1;
                 this.level.getBarre().reInitPosition();
-            
+
             }
             return true;
         }
