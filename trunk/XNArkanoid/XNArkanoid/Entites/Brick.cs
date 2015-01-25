@@ -11,20 +11,10 @@ namespace XNArkanoid.Entites
     enum typeBrick { normale, incassable, bonus, plusieursvies };
     class Brick : Element
     {
-        private Boolean visible;
         private int pdv;
         typeBrick type;
 
         #region Getters & Setters
-        public Boolean getVisible()
-        {
-            return this.visible;
-        }
-        public void setVisible(Boolean visible)
-        {
-            this.visible = visible;
-        }
-
         public int getPdv()
         {
             return this.pdv;
@@ -50,7 +40,6 @@ namespace XNArkanoid.Entites
         public Brick(Rectangle rectangle, Level level, int pdv)
             : base(level)
         {
-            this.visible = true;
             this.rectangle = rectangle;
             this.pdv = pdv;
             switch (pdv)

@@ -36,7 +36,7 @@ namespace XNArkanoid.Entites
         new public void setTexture(Texture2D texture)
         {
             base.setTexture(texture);
-            this.rectangle.X = this.level.getLargeurEcran() / 2 - texture.Width / 2;
+            this.rectangle.X = this.level.getLargeurEcran() / 2 - texture.Width;// / 2;
             this.rectangle.Y = this.level.getBarre().getRectangle().Height - texture.Height;
         }
         #endregion
@@ -64,10 +64,14 @@ namespace XNArkanoid.Entites
 
         public bool Collision(Brick brick)
         {
-            if (brick.getVisible() && brick.getRectangle().Intersects(this.rectangle))
+            if (brick.getRectangle().Intersects(this.rectangle))
             {
                 this.ballDirection.Y = -this.ballDirection.Y;
-                brick.setVisible(false);
+                brick.setPdv(brick.getPdv() - 1);
+                if(brick.getPdv()==0)
+                {
+                    this.level.getBricks().Remove(brick);
+                }                
                 return true;
             }
             return false;
