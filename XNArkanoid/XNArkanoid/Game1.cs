@@ -71,12 +71,12 @@ namespace XNArkanoid
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            this.addTexture(Content.Load<Texture2D>("images/barre"), "barre", "");
+            this.addTexture(Content.Load<Texture2D>("images/barre"), "barre", String.Empty);
             this.addTexture(Content.Load<Texture2D>("images/brick_greent"), "brick", "brickNormale");
             this.addTexture(Content.Load<Texture2D>("images/brick_greenq"), "brick", "brickIncassable");
             this.addTexture(Content.Load<Texture2D>("images/brick_greenc"), "brick", "brickBonus");
             this.addTexture(Content.Load<Texture2D>("images/brick_greenb"), "brick", "brickVies");
-            this.addTexture(Content.Load<Texture2D>("images/balle"), "balle", "");
+            this.addTexture(Content.Load<Texture2D>("images/balle"), "balle", String.Empty);
             this.addTexture(Content.Load<Texture2D>("images/brick_green"), "btn", "btnJouer");
 
             this.menu.setTextureBtn(this.listeTexture);
