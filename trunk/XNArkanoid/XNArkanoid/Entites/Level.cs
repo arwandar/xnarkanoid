@@ -176,7 +176,7 @@ namespace XNArkanoid.Entites
         /// Dessine les éléments du niveau
         /// </summary>
         /// <param name="spriteBatch"></param>
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, SpriteFont font)
         {
             this.barre.Draw(spriteBatch);
             foreach (Brick brick in this.Bricks)
@@ -184,16 +184,35 @@ namespace XNArkanoid.Entites
                 brick.Draw(spriteBatch);
             }
             this.ball.Draw(spriteBatch);
+
+            String texte = "Level: " + this.levelId + " / Balles: " + this.getBalls() + " / Score: " + this.score;
+            spriteBatch.DrawString(font, texte, new Vector2(100, 2), Color.Black);
         }
 
         /// <summary>
         /// Lance les fonctions pour gérer le déplacement de la barre et de la balle
         /// </summary>
         /// <param name="deplacementSouris"></param>
-        public void Update(int deplacementSouris)
+        public int Update(int deplacementSouris)
         {
             this.barre.deplacer(deplacementSouris);
-            this.ball.deplacementBalle();
+
+            int nbBrickACasser = 0;
+            foreach (Brick brick in this.Bricks)
+            {
+                nbBrickACasser += brick.getType() == typeBrick.incassable ? 0 : 1;
+            }
+            bool partieEnCours = this.ball.deplacementBalle();
+
+            if (!partieEnCours)
+            {
+                return -1;
+            }
+            else if (nbBrickACasser == 0)
+            {
+                return 0;
+            }
+            return 1;
 
         }
 
@@ -247,7 +266,7 @@ namespace XNArkanoid.Entites
                         }
                         break;
                     case typeBrick.incassable:
-                        if (texture.Name == "BrickIncassable")
+                        if (texture.Name == "brickIncassable")
                         {
                             brick.setTexture(texture);
                         }
