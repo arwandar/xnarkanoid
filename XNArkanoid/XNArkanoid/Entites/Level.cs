@@ -14,7 +14,7 @@ namespace XNArkanoid.Entites
         private Barre barre;
         private int balls;
         private Ball ball;
-        public List<Brick> Bricks { get; set; }
+        public List<Brick> Bricks;
         private int width;
         private int height;
         private int levelId;
@@ -42,6 +42,11 @@ namespace XNArkanoid.Entites
             this.balls = balls;
         }
 
+        public List<Brick> getBricks()
+        {
+            return this.Bricks;
+        }
+        
         public int getWidth()
         {
             return this.width;
@@ -68,7 +73,6 @@ namespace XNArkanoid.Entites
         {
             this.levelId = levelId;
         }
-
 
         public Ball getBall()
         {
@@ -138,15 +142,10 @@ namespace XNArkanoid.Entites
                         pdv = b[i].Equals('b') ? -2 : pdv;
                         pdv = b[i].Equals('i') ? -1 : pdv;
                         pdv = pdv == -3 ? (int)Char.GetNumericValue(b[i]) : pdv;
-                        if (b[i].Equals(' '))
-                        {
-
-
-                        }
-                        else if (!b[i].Equals('#'))
+                        if (!b[i].Equals(' '))
                         {
                             Brick elseTmpBrick = new Brick(new Rectangle(50 + (i * 32), 70 + (row * 32), 32, 32), this, pdv);
-                            this.Bricks.Add(elseTmpBrick);
+                            this.Bricks.Add(elseTmpBrick);                            
                         }
                     }
                     row++;
