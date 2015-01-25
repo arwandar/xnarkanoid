@@ -10,10 +10,11 @@ namespace XNArkanoid.Entites
 {
     class Ball : Element
     {
+        #region Déclarations
         private Vector2 ballDirection;
         private float speed;
         private Boolean isMoving;
-
+        #endregion
 
         #region Getters & Setters
         public float getSpeed()
@@ -54,19 +55,27 @@ namespace XNArkanoid.Entites
 
 
         #region Méthodes de gestion
+        /// <summary>
+        /// Gère la collision entre la balle et la barre
+        /// </summary>
+        /// <param name="barre"></param>
+        /// <returns>Un booleen qui permet de savoir si la collision a ou non eu lieu</returns>
         public bool Collision(Barre barre)
         {
             if (barre.getRectangle().Intersects(this.rectangle))
             {
+                //Fait en sorte que la balle ne s'incruste pas dans la barre
                 while (barre.getRectangle().Intersects(this.rectangle))
                 {
                     this.rectangle.X -= (int)this.ballDirection.X;
                     this.rectangle.Y -= (int)this.ballDirection.Y;
                 }
+                //Calcule le point d'impact pour en tirer un coefficient permettant de renvoyer la balle dans l'angle voulu
                 float milieuBarre = this.level.getBarre().getRectangle().X + this.level.getBarre().getRectangle().Width / 2;
                 float milieuBall = this.rectangle.X + this.texture.Width / 2;
                 float différenceImpact = (milieuBall - milieuBarre) / this.level.getBarre().getRectangle().Width / 2;
                 this.ballDirection.X = 10 * différenceImpact;
+                //
                 this.ballDirection.Y = -this.ballDirection.Y;
                 return true;
             }
@@ -88,6 +97,7 @@ namespace XNArkanoid.Entites
                 {
                     this.level.getBricks().Remove(brick);
                 }
+                this.level.setScore(this.level.getScore() + 10);
                 return true;
             }
             return false;
