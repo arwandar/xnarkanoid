@@ -55,10 +55,9 @@ namespace XNArkanoid
 
             this.listeTexture = new List<Texture2D>();
 
-            this.level = new Level(1, this.largeurEcran, this.hauteurEcran);
             this.menu = new Menu(this.largeurEcran, this.hauteurEcran);
 
-            this.ecran = listeEcran.level;
+            this.ecran = listeEcran.menu;
 
             base.Initialize();
         }
@@ -75,9 +74,10 @@ namespace XNArkanoid
             // TODO: use this.Content to load your game content here
             this.addTexture(Content.Load<Texture2D>("images/barre"), "barre", "");
             this.addTexture(Content.Load<Texture2D>("images/brick_green"), "brick", "brickNormale");
+            this.addTexture(Content.Load<Texture2D>("images/brick_green"), "brick", "brickIncassable");
+            this.addTexture(Content.Load<Texture2D>("images/brick_green"), "brick", "brickBonus");
+            this.addTexture(Content.Load<Texture2D>("images/brick_green"), "brick", "brickVies");
             this.addTexture(Content.Load<Texture2D>("images/balle"), "balle", "");
-
-            this.level.initTexture(listeTexture);
         }
 
         private void addTexture(Texture2D texture, String tag, String name)
@@ -108,10 +108,25 @@ namespace XNArkanoid
                 this.Exit();
 
             // TODO: Add your update logic here
+            
 
             switch (ecran)
             {
                 case listeEcran.menu:
+                    typeBtn btnClick = 0;
+                    btnClick = typeBtn.btnJouer;
+                    switch (btnClick)
+                    {
+                        case typeBtn.btnJouer:
+                            this.level = new Level(1, this.largeurEcran, this.hauteurEcran, this.listeTexture);
+                            this.ecran = listeEcran.level;
+                            break;
+                        case typeBtn.btnExit:
+                            break;
+                        default:
+                            break;
+                    }
+
                     break;
                 case listeEcran.level:
                     this.oldMouseState = this.mouseState;

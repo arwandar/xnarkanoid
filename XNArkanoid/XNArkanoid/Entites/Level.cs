@@ -104,7 +104,7 @@ namespace XNArkanoid.Entites
         #endregion
 
         #region Constructeur
-        public Level(int levelId, int largeurEcran, int hauteurEcran)
+        public Level(int levelId, int largeurEcran, int hauteurEcran, List<Texture2D> listeTexture)
         {
             this.hauteurEcran = hauteurEcran;
             this.largeurEcran = largeurEcran;
@@ -115,6 +115,7 @@ namespace XNArkanoid.Entites
             this.ball = new Ball(this);
             this.Bricks = new List<Brick>();
             this.LoadLevel(hauteurEcran);
+            this.initTexture(listeTexture);
         }
         #endregion
 
@@ -207,6 +208,24 @@ namespace XNArkanoid.Entites
                 {
                     case typeBrick.normale:
                         if (texture.Name == "brickNormale")
+                        {
+                            brick.setTexture(texture);
+                        }
+                        break;
+                    case typeBrick.bonus:
+                        if (texture.Name == "brickBonus")
+                        {
+                            brick.setTexture(texture);
+                        }
+                        break;
+                    case typeBrick.incassable:
+                        if (texture.Name == "BrickIncassable")
+                        {
+                            brick.setTexture(texture);
+                        }
+                        break;
+                    case typeBrick.plusieursvies:
+                        if (texture.Name == "brickVies")
                         {
                             brick.setTexture(texture);
                         }
