@@ -49,14 +49,13 @@ namespace XNArkanoid
             mouseState = Mouse.GetState();
 
             this.Window.Title = "XNArkanoid";
+            this.IsMouseVisible = true;
 
             this.hauteurEcran = this.graphics.PreferredBackBufferHeight;
             this.largeurEcran = this.graphics.PreferredBackBufferWidth;
-
             this.listeTexture = new List<Texture2D>();
 
             this.menu = new Menu(this.largeurEcran, this.hauteurEcran);
-
             this.ecran = listeEcran.menu;
 
             base.Initialize();
@@ -73,11 +72,14 @@ namespace XNArkanoid
 
             // TODO: use this.Content to load your game content here
             this.addTexture(Content.Load<Texture2D>("images/barre"), "barre", "");
-            this.addTexture(Content.Load<Texture2D>("images/brick_green"), "brick", "brickNormale");
-            this.addTexture(Content.Load<Texture2D>("images/brick_green"), "brick", "brickIncassable");
-            this.addTexture(Content.Load<Texture2D>("images/brick_green"), "brick", "brickBonus");
-            this.addTexture(Content.Load<Texture2D>("images/brick_green"), "brick", "brickVies");
+            this.addTexture(Content.Load<Texture2D>("images/brick_greent"), "brick", "brickNormale");
+            this.addTexture(Content.Load<Texture2D>("images/brick_greenq"), "brick", "brickIncassable");
+            this.addTexture(Content.Load<Texture2D>("images/brick_greenc"), "brick", "brickBonus");
+            this.addTexture(Content.Load<Texture2D>("images/brick_greenb"), "brick", "brickVies");
             this.addTexture(Content.Load<Texture2D>("images/balle"), "balle", "");
+            this.addTexture(Content.Load<Texture2D>("images/brick_green"), "btn", "btnJouer");
+
+            this.menu.setTextureBtn(this.listeTexture);
         }
 
         private void addTexture(Texture2D texture, String tag, String name)
@@ -107,28 +109,29 @@ namespace XNArkanoid
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            // TODO: Add your update logic here
-            
-
+            // TODO: Add your update logic here   
             switch (ecran)
             {
                 case listeEcran.menu:
-                    typeBtn btnClick = 0;
-                    btnClick = typeBtn.btnJouer;
-                    switch (btnClick)
+                    if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                     {
-                        case typeBtn.btnJouer:
-                            this.level = new Level(1, this.largeurEcran, this.hauteurEcran, this.listeTexture);
-                            this.ecran = listeEcran.level;
-                            break;
-                        case typeBtn.btnExit:
-                            break;
-                        default:
-                            break;
+                        typeBtn btnClick = 0;
+                        btnClick = typeBtn.btnJouer;
+                        switch (btnClick)
+                        {
+                            case typeBtn.btnJouer:
+                                this.level = new Level(1, this.largeurEcran, this.hauteurEcran, this.listeTexture);
+                                this.ecran = listeEcran.level;
+                                break;
+                            case typeBtn.btnExit:
+                                break;
+                            default:
+                                break;
+                        }
                     }
-
                     break;
                 case listeEcran.level:
+                    this.IsMouseVisible = false;
                     this.oldMouseState = this.mouseState;
                     this.mouseState = Mouse.GetState();
                     int deplacement = this.oldMouseState.X - this.mouseState.X;
@@ -138,11 +141,6 @@ namespace XNArkanoid
                     this.Exit();
                     break;
             }
-
-
-            //prise en compte du mouvement de la souris
-
-
             base.Update(gameTime);
         }
 

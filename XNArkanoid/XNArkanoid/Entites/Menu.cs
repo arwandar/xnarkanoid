@@ -10,6 +10,8 @@ namespace XNArkanoid.Entites
     {
         protected int hauteurEcran, largeurEcran;
         private List<Btn> listeBtn;
+
+        #region Constructeur
         public Menu(int hauteurEcran, int largeurEcran)
         {
             this.hauteurEcran = hauteurEcran;
@@ -18,8 +20,12 @@ namespace XNArkanoid.Entites
             this.listeBtn = new List<Btn>();
 
             //btn pour demarrer une partie
-            //Btn demarrerPartie = new Btn(this);
+            Btn demarrerPartie = new Btn(this, typeBtn.btnJouer);
+            this.listeBtn.Add(demarrerPartie);
         }
+        #endregion
+
+        #region Méthode
         public void Draw(SpriteBatch spriteBatch)
         {
             foreach(Btn btn in listeBtn)
@@ -27,8 +33,6 @@ namespace XNArkanoid.Entites
                 btn.Draw(spriteBatch);
             }
         }
-
-
 
         public void setTextureBtn(List<Texture2D> listeTexture)
         {
@@ -52,5 +56,6 @@ namespace XNArkanoid.Entites
                 }
             }
         }
+        #endregion
     }
 }
