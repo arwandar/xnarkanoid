@@ -11,6 +11,7 @@ namespace XNArkanoid.Entites
 {
     class Level
     {
+        #region Déclarations
         private Barre barre;
         private int balls;
         private Ball ball;
@@ -21,7 +22,7 @@ namespace XNArkanoid.Entites
         protected int hauteurEcran, largeurEcran;
         private int score;
         private Boolean isGamePlaying;
-
+        #endregion
 
         #region Getters & Setters
         public Barre getBarre()
@@ -46,7 +47,7 @@ namespace XNArkanoid.Entites
         {
             return this.Bricks;
         }
-        
+
         public int getWidth()
         {
             return this.width;
@@ -115,6 +116,7 @@ namespace XNArkanoid.Entites
             int BarreSpeed = 1;
             this.levelId = levelId;
             this.barre = new Barre(BarreSpeed, this);
+            //Le nombre de balles du joueur
             this.balls = 3;
             this.ball = new Ball(this);
             this.Bricks = new List<Brick>();
@@ -123,29 +125,39 @@ namespace XNArkanoid.Entites
         }
         #endregion
 
-
         #region Méthodes de Gestion
+        /// <summary>
+        /// Charge un niveau en lisant un fichier externe
+        /// </summary>
+        /// <param name="hauteurEcran"></param>
+        /// <returns></returns>
         private bool LoadLevel(int hauteurEcran)
         {
+            //Récupère le chemin du fichier qu'on va lire
             String levelPath = String.Format("Content/levels/level{0}/level{0}.txt", this.levelId);
             try
             {
                 StreamReader sr = new StreamReader(TitleContainer.OpenStream(levelPath));
                 String line;
                 int row = 0;
+                //Tant qu'on a une ligne a lire
                 while ((line = sr.ReadLine()) != null)
                 {
                     Char[] b = line.ToCharArray();
+                    //Parcourt la ligne
                     for (int i = 0; i < b.Length; i++)
                     {
-                        int pdv = -3;
-                        pdv = b[i].Equals('b') ? -2 : pdv;
-                        pdv = b[i].Equals('i') ? -1 : pdv;
-                        pdv = pdv == -3 ? (int)Char.GetNumericValue(b[i]) : pdv;
+                        //Lit le caractère et vérifie qu'on va mettre une brique
                         if (!b[i].Equals(' '))
                         {
+                            //Détermine les points de vie de la future brique
+                            int pdv = -3;
+                            pdv = b[i].Equals('b') ? -2 : pdv;
+                            pdv = b[i].Equals('i') ? -1 : pdv;
+                            pdv = pdv == -3 ? (int)Char.GetNumericValue(b[i]) : pdv;
+                            //Crée la brique
                             Brick elseTmpBrick = new Brick(new Rectangle(50 + (i * 32), 70 + (row * 32), 32, 32), this, pdv);
-                            this.Bricks.Add(elseTmpBrick);                            
+                            this.Bricks.Add(elseTmpBrick);
                         }
                     }
                     row++;
@@ -160,6 +172,10 @@ namespace XNArkanoid.Entites
             }
         }
 
+        /// <summary>
+        /// Dessine les éléments du niveau
+        /// </summary>
+        /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch)
         {
             this.barre.Draw(spriteBatch);
@@ -170,13 +186,21 @@ namespace XNArkanoid.Entites
             this.ball.Draw(spriteBatch);
         }
 
+        /// <summary>
+        /// Lance les fonctions pour gérer le déplacement de la barre et de la balle
+        /// </summary>
+        /// <param name="deplacementSouris"></param>
         public void Update(int deplacementSouris)
         {
             this.barre.deplacer(deplacementSouris);
-            this.ball.deplacer();
+            this.ball.deplacementBalle();
 
         }
 
+        /// <summary>
+        /// Initialise les textures de la balle et de la balle, puis lance la fonction d'initialisation des textures des briques
+        /// </summary>
+        /// <param name="listeTexture"></param>
         public void initTexture(List<Texture2D> listeTexture)
         {
 
@@ -199,6 +223,10 @@ namespace XNArkanoid.Entites
             }
         }
 
+        /// <summary>
+        /// Initialise les textures des briques en fonction de leur type
+        /// </summary>
+        /// <param name="texture"></param>
         private void initTextureBrick(Texture2D texture)
         {
             Console.WriteLine(this.Bricks.Count);
@@ -235,7 +263,6 @@ namespace XNArkanoid.Entites
                 }
             }
         }
-
         #endregion
     }
 }
