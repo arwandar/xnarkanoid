@@ -173,6 +173,7 @@ namespace XNArkanoid.Entites
         public void Update(int deplacementSouris)
         {
             this.barre.deplacer(deplacementSouris);
+            this.ball.deplacer();
 
         }
 

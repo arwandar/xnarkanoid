@@ -37,6 +37,10 @@ namespace XNArkanoid.Entites
         {
             return this.rectangle;
         }
+        public void setRectangle(Rectangle rectangle)
+        {
+            this.rectangle = rectangle;
+        }
 
         public void Draw(SpriteBatch spriteBatch)
         {
