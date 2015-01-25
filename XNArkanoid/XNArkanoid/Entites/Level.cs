@@ -14,7 +14,7 @@ namespace XNArkanoid.Entites
         private Barre barre;
         private int balls;
         private Ball ball;
-        public Brick[,] Bricks { get; set; }
+        public List<Brick> Bricks { get; set; }
         private int width;
         private int height;
         private int levelId;
@@ -112,8 +112,9 @@ namespace XNArkanoid.Entites
             this.levelId = levelId;
             this.barre = new Barre(BarreSpeed, this);
             this.balls = 3;
-            this.LoadLevel(hauteurEcran);
             this.ball = new Ball(this);
+            this.Bricks = new List<Brick>();
+            this.LoadLevel(hauteurEcran);
         }
         #endregion
 
@@ -121,36 +122,30 @@ namespace XNArkanoid.Entites
         #region Méthodes de Gestion
         private bool LoadLevel(int hauteurEcran)
         {
-            String levelPath = String.Format("levels/level{0}/level{0}.txt", this.levelId);
-            levelPath = "Content/" + levelPath;
-
+            String levelPath = String.Format("Content/levels/level{0}/level{0}.txt", this.levelId);
             try
             {
                 StreamReader sr = new StreamReader(TitleContainer.OpenStream(levelPath));
-                String[] infos = sr.ReadLine().Split(' ');
-                this.height = Int16.Parse(infos[0]);
-                this.width = Int16.Parse(infos[1]);
-                this.Bricks = new Brick[height, width];
                 String line;
                 int row = 0;
-                int brickwidth = hauteurEcran / width;
-                //int brickHeight = 40;
                 while ((line = sr.ReadLine()) != null)
                 {
                     Char[] b = line.ToCharArray();
                     for (int i = 0; i < b.Length; i++)
                     {
+                        int pdv = -3;
+                        pdv = b[i].Equals('b') ? -2 : pdv;
+                        pdv = b[i].Equals('i') ? -1 : pdv;
+                        pdv = pdv == -3 ? (int)Char.GetNumericValue(b[i]) : pdv;
                         if (b[i].Equals(' '))
                         {
-                            Brick tmpBrick = new Brick(new Rectangle(50 + (i * 32), 70 + (row * 32), 32, 32), this);
-                            // tmpBrick.setVisible(false);
-                            this.Bricks[row, i] = tmpBrick;
+
+
                         }
-                        else
+                        else if (!b[i].Equals('#'))
                         {
-                            if (!b[i].Equals('#'))
-                                //this.nbBricks++;
-                                this.Bricks[row, i] = new Brick(new Rectangle(50 + (i * 32), 70 + (row * 32), 32, 32), this);
+                            Brick elseTmpBrick = new Brick(new Rectangle(50 + (i * 32), 70 + (row * 32), 32, 32), this, pdv);
+                            this.Bricks.Add(elseTmpBrick);
                         }
                     }
                     row++;
@@ -168,12 +163,9 @@ namespace XNArkanoid.Entites
         public void Draw(SpriteBatch spriteBatch)
         {
             this.barre.Draw(spriteBatch);
-            for (int i = 0; i < this.Bricks.GetLength(0); i++)
+            foreach (Brick brick in this.Bricks)
             {
-                for (int j = 0; j < this.Bricks.GetLength(1); j++)
-                {
-                    this.Bricks[i, j].Draw(spriteBatch);
-                }
+                brick.Draw(spriteBatch);
             }
             this.ball.Draw(spriteBatch);
         }
@@ -208,21 +200,19 @@ namespace XNArkanoid.Entites
 
         private void initTextureBrick(Texture2D texture)
         {
-            for (int i = 0; i < this.Bricks.GetLength(0); i++)
+            Console.WriteLine(this.Bricks.Count);
+            foreach (Brick brick in this.Bricks)
             {
-                for (int j = 0; j < this.Bricks.GetLength(1); j++)
+                switch (brick.getType())
                 {
-                    switch (this.Bricks[i, j].getType())
-                    {
-                        case typeBrick.normale:
-                            if (texture.Name == "brickNormale")
-                            {
-                                this.Bricks[i, j].setTexture(texture);
-                            }
-                            break;
-                        default:
-                            break;
-                    }
+                    case typeBrick.normale:
+                        if (texture.Name == "brickNormale")
+                        {
+                            brick.setTexture(texture);
+                        }
+                        break;
+                    default:
+                        break;
                 }
             }
         }

@@ -12,7 +12,7 @@ namespace XNArkanoid.Entites
     class Brick : Element
     {
         private Boolean visible;
-        
+        private int pdv;
         typeBrick type;
 
         #region Getters & Setters
@@ -23,6 +23,15 @@ namespace XNArkanoid.Entites
         public void setVisible(Boolean visible)
         {
             this.visible = visible;
+        }
+
+        public int getPdv()
+        {
+            return this.pdv;
+        }
+        public void setPdv(int pdv)
+        {
+            this.pdv = pdv;
         }
 
         new public void setTexture(Texture2D texture)
@@ -38,12 +47,29 @@ namespace XNArkanoid.Entites
 
 
         #region Constructeur
-        public Brick(Rectangle rectangle, Level level)
+        public Brick(Rectangle rectangle, Level level, int pdv)
             : base(level)
         {
             this.visible = true;
             this.rectangle = rectangle;
-            this.type = typeBrick.normale;
+            this.pdv = pdv;
+            switch (pdv)
+            {
+                case -2:
+                    this.type = typeBrick.bonus;
+                    this.pdv = 1;
+                    break;
+                case -1:
+                    this.type = typeBrick.incassable;
+                    break;
+                case 1:
+                    this.type = typeBrick.normale;
+                    break;
+                default:
+                    this.type = typeBrick.plusieursvies;
+                    break;
+            }
+
         }
         #endregion
 
