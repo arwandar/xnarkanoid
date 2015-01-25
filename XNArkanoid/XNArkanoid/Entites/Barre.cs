@@ -41,6 +41,12 @@ namespace XNArkanoid.Entites
         #endregion
 
         #region Méthode
+        public void reInitPosition()
+        {
+            this.rectangle.X = this.level.getLargeurEcran() / 2 - this.texture.Width / 2;
+            this.rectangle.Y = this.level.getHauteurEcran() - this.texture.Height;
+        }
+
         public void deplacer(int deplacement)
         {
             float depAcVitesse = ((float)deplacement) * this.speed;

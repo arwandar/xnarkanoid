@@ -37,7 +37,7 @@ namespace XNArkanoid.Entites
         {
             base.setTexture(texture);
             this.rectangle.X = this.level.getLargeurEcran() / 2 - texture.Width;// / 2;
-            this.rectangle.Y = this.level.getBarre().getRectangle().Height - texture.Height;
+            this.rectangle.Y = this.level.getBarre().getRectangle().Height + 2 * texture.Height;
         }
         #endregion
 
@@ -46,7 +46,9 @@ namespace XNArkanoid.Entites
         public Ball(Level level)
             : base(level)
         {
-
+            this.speed = 0.3F;
+            this.ballDirection.X = 10;
+            this.ballDirection.Y = 10;
         }
         #endregion
 
@@ -68,13 +70,56 @@ namespace XNArkanoid.Entites
             {
                 this.ballDirection.Y = -this.ballDirection.Y;
                 brick.setPdv(brick.getPdv() - 1);
-                if(brick.getPdv()==0)
+                if (brick.getPdv() == 0)
                 {
                     this.level.getBricks().Remove(brick);
-                }                
+                }
                 return true;
             }
             return false;
+        }
+
+        public Boolean deplacer()
+        {
+            int newX = this.rectangle.X + (int)(this.ballDirection.X * this.speed);
+            int newY = this.rectangle.Y + (int)(this.ballDirection.Y * this.speed);
+
+            this.rectangle.X = newX; this.rectangle.Y = newY;
+            Collision(this.level.getBarre());
+            foreach (Brick brick in this.level.getBricks())
+            {
+                if (Collision(brick))
+                {
+                    break;
+                }
+            }
+            if (newX < 0)
+            {
+                this.ballDirection.X = -this.ballDirection.X;
+            }
+            if (newX + texture.Width > this.level.getLargeurEcran())
+            {
+                this.ballDirection.X = -this.ballDirection.X;
+            }
+            if (newY < 0)
+            {
+                this.ballDirection.Y = -this.ballDirection.Y;
+            }
+            //GODMODE ACTIVATED
+            if (newY > this.level.getHauteurEcran())
+            {
+               this.ballDirection.Y = -this.ballDirection.Y;
+                this.level.setBalls(this.level.getBalls()-1);
+                if (this.level.getBalls() == 0)
+                {
+                    return false;
+                }
+                this.rectangle.X = this.level.getLargeurEcran() / 2 - texture.Width;// / 2;
+                this.rectangle.Y = this.level.getBarre().getRectangle().Height + 2 * texture.Height;
+                this.level.getBarre().reInitPosition();
+            
+            }
+            return true;
         }
         #endregion
 
