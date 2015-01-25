@@ -28,6 +28,8 @@ namespace XNArkanoid.Entites
             }
         }
 
+
+
         public void setTextureBtn(List<Texture2D> listeTexture)
         {
             foreach (Btn btn in listeBtn)
@@ -36,11 +38,16 @@ namespace XNArkanoid.Entites
                 {
                     if (texture.Tag.ToString() == "btn")
                     {
-                        //switch (texture.Name)
-                        //{
-                        //    case "btnJouer":
-
-                        //}
+                        switch (texture.Name)
+                        {
+                            case "btnJouer":
+                                if (btn.getType() == typeBtn.btnJouer){
+                                    btn.setTexture(texture);
+                                }
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 }
             }
