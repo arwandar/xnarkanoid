@@ -190,30 +190,35 @@ namespace XNArkanoid.Entites
         }
 
         /// <summary>
-        /// Lance les fonctions pour gérer le déplacement de la barre et de la balle
+        /// Lance les fonctions pour gérer les déplacements et les conditions d'arrêt de la partie
         /// </summary>
         /// <param name="deplacementSouris"></param>
+        /// <returns>Les différents cas de fin de partie possible</returns>
         public int Update(int deplacementSouris)
         {
+            //Gère le déplacement de la souris
             this.barre.deplacer(deplacementSouris);
-
+            //Gère le déplacement de la balle
+            bool partieEnCours = this.ball.deplacementBalle();
+            //Calcule le nombre de briques cassables encore en jeu
             int nbBrickACasser = 0;
             foreach (Brick brick in this.Bricks)
             {
                 nbBrickACasser += brick.getType() == typeBrick.incassable ? 0 : 1;
             }
-            bool partieEnCours = this.ball.deplacementBalle();
-
+            //Renvoi des valeurs
             if (!partieEnCours)
             {
+                //Si le joueur a perdu (plus de balles)
                 return -1;
             }
             else if (nbBrickACasser == 0)
             {
+                //Si le joueur a gagné (plus de briques)
                 return 0;
             }
+            //Si la partie continue
             return 1;
-
         }
 
         /// <summary>

@@ -104,9 +104,9 @@ namespace XNArkanoid.Entites
                 if (brick.getPdv() == 0)
                 {
                     this.level.getBricks().Remove(brick);
+                    //Augmente le score
+                    this.level.setScore(this.level.getScore() + 10);
                 }
-                //Augmente le score
-                this.level.setScore(this.level.getScore() + 10);
                 return true;
             }
             return false;
