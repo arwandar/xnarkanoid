@@ -75,8 +75,10 @@
     <Compile Include="Entites\Barre.cs" />
     <Compile Include="Entites\Ball.cs" />
     <Compile Include="Entites\Brick.cs" />
+    <Compile Include="Entites\Btn.cs" />
     <Compile Include="Entites\Element.cs" />
     <Compile Include="Entites\Level.cs" />
+    <Compile Include="Entites\Menu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />

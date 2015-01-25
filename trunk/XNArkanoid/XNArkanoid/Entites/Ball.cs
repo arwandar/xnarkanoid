@@ -33,11 +33,18 @@ namespace XNArkanoid.Entites
         {
             this.isMoving = isMoving;
         }
+        new public void setTexture(Texture2D texture)
+        {
+            base.setTexture(texture);
+            this.rectangle.X = this.level.getLargeurEcran() / 2 - texture.Width / 2;
+            this.rectangle.Y = this.level.getBarre().getRectangle().Height - texture.Height;
+        }
         #endregion
 
 
         #region Constructeur
-        public Ball(Level level) : base (level)
+        public Ball(Level level)
+            : base(level)
         {
 
         }

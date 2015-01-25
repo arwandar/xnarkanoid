@@ -18,7 +18,7 @@ namespace XNArkanoid.Entites
         private int width;
         private int height;
         private int levelId;
-        private int hauteurEcran, largeurEcran;
+        protected int hauteurEcran, largeurEcran;
 
 
         #region Getters & Setters
@@ -67,6 +67,11 @@ namespace XNArkanoid.Entites
             this.levelId = levelId;
         }
 
+
+        public Ball getBall()
+        {
+            return this.ball;
+        }
         public int getHauteurEcran()
         {
             return this.hauteurEcran;
@@ -76,23 +81,18 @@ namespace XNArkanoid.Entites
         {
             return this.largeurEcran;
         }
-
-        public Ball getBall()
-        {
-            return this.ball;
-        }
         #endregion
 
         #region Constructeur
         public Level(int levelId, int largeurEcran, int hauteurEcran)
         {
+            this.hauteurEcran = hauteurEcran;
+            this.largeurEcran = largeurEcran;
             int BarreSpeed = 1;
             this.levelId = levelId;
             this.barre = new Barre(BarreSpeed, this);
             this.balls = 3;
             this.LoadLevel(hauteurEcran);
-            this.hauteurEcran = hauteurEcran;
-            this.largeurEcran = largeurEcran;
             this.ball = new Ball(this);
         }
         #endregion
@@ -123,7 +123,7 @@ namespace XNArkanoid.Entites
                         if (b[i].Equals(' '))
                         {
                             Brick tmpBrick = new Brick(new Rectangle(50 + (i * 32), 70 + (row * 32), 32, 32), this);
-                           // tmpBrick.setVisible(false);
+                            // tmpBrick.setVisible(false);
                             this.Bricks[row, i] = tmpBrick;
                         }
                         else
@@ -144,7 +144,7 @@ namespace XNArkanoid.Entites
                 return false;
             }
         }
-        
+
         public void Draw(SpriteBatch spriteBatch)
         {
             this.barre.Draw(spriteBatch);
@@ -163,10 +163,50 @@ namespace XNArkanoid.Entites
             this.barre.deplacer(deplacementSouris);
 
         }
-        
+
+        public void initTexture(List<Texture2D> listeTexture)
+        {
+
+            foreach (Texture2D texture in listeTexture)
+            {
+                switch (texture.Tag.ToString())
+                {
+                    case "balle":
+                        this.ball.setTexture(texture);
+                        break;
+                    case "barre":
+                        this.barre.setTexture(texture);
+                        break;
+                    case "brick":
+                        this.initTextureBrick(texture);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        private void initTextureBrick(Texture2D texture)
+        {
+            for (int i = 0; i < this.Bricks.GetLength(0); i++)
+            {
+                for (int j = 0; j < this.Bricks.GetLength(1); j++)
+                {
+                    switch (this.Bricks[i, j].getType())
+                    {
+                        case typeBrick.normale:
+                            if (texture.Name == "brickNormale")
+                            {
+                                this.Bricks[i, j].setTexture(texture);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+
         #endregion
-
-
-
     }
 }

@@ -22,8 +22,13 @@ namespace XNArkanoid
         MouseState oldMouseState, mouseState;
         int hauteurEcran, largeurEcran;
 
-        Level level;
+        List<Texture2D> listeTexture;
 
+        Level level;
+        Menu menu;
+
+        enum listeEcran { menu, level };
+        listeEcran ecran;
 
         public Game1()
         {
@@ -48,7 +53,12 @@ namespace XNArkanoid
             this.hauteurEcran = this.graphics.PreferredBackBufferHeight;
             this.largeurEcran = this.graphics.PreferredBackBufferWidth;
 
-            this.level = new Level(1, largeurEcran, hauteurEcran);
+            this.listeTexture = new List<Texture2D>();
+
+            this.level = new Level(1, this.largeurEcran, this.hauteurEcran);
+            this.menu = new Menu(this.largeurEcran, this.hauteurEcran);
+
+            this.ecran = listeEcran.level;
 
             base.Initialize();
         }
@@ -63,15 +73,18 @@ namespace XNArkanoid
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            this.level.getBarre().setTexture(Content.Load<Texture2D>("images/barre"));
-            for (int i = 0; i < this.level.Bricks.GetLength(0); i++)
-            {
-                for (int j =0; j < this.level.Bricks.GetLength(1); j++)
-                {
-                    this.level.Bricks[i, j].setTexture(Content.Load<Texture2D>("images/brick_green"));
-                }
-            }
-            this.level.getBall().setTexture(Content.Load<Texture2D>("images/balle"));
+            this.addTexture(Content.Load<Texture2D>("images/barre"), "barre", "");
+            this.addTexture(Content.Load<Texture2D>("images/brick_green"), "brick", "brickNormale");
+            this.addTexture(Content.Load<Texture2D>("images/balle"), "balle", "");
+
+            this.level.initTexture(listeTexture);
+        }
+
+        private void addTexture(Texture2D texture, String tag, String name)
+        {
+            texture.Tag = tag;
+            texture.Name = name;
+            this.listeTexture.Add(texture);
         }
 
         /// <summary>
@@ -95,11 +108,25 @@ namespace XNArkanoid
                 this.Exit();
 
             // TODO: Add your update logic here
+
+            switch (ecran)
+            {
+                case listeEcran.menu:
+                    break;
+                case listeEcran.level:
+                    this.oldMouseState = this.mouseState;
+                    this.mouseState = Mouse.GetState();
+                    int deplacement = this.oldMouseState.X - this.mouseState.X;
+                    this.level.Update(deplacement);
+                    break;
+                default:
+                    this.Exit();
+                    break;
+            }
+
+
             //prise en compte du mouvement de la souris
-            this.oldMouseState = this.mouseState;
-            this.mouseState = Mouse.GetState();
-            int deplacement = this.oldMouseState.X - this.mouseState.X;
-            this.level.Update(deplacement);
+
 
             base.Update(gameTime);
         }
@@ -114,7 +141,18 @@ namespace XNArkanoid
 
             spriteBatch.Begin();
 
-            this.level.Draw(spriteBatch);
+            switch (ecran)
+            {
+                case listeEcran.menu:
+                    this.menu.Draw(spriteBatch);
+                    break;
+                case listeEcran.level:
+                    this.level.Draw(spriteBatch);
+                    break;
+                default:
+                    this.Exit();
+                    break;
+            }
 
             spriteBatch.End();
             base.Draw(gameTime);
