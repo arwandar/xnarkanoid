@@ -8,10 +8,12 @@ using Microsoft.Xna.Framework.Content;
 
 namespace XNArkanoid.Entites
 {
+    enum typeBrick { normale, incassable, bonus, plusieursvies };
     class Brick : Element
     {
         private Boolean visible;
-
+        
+        typeBrick type;
 
         #region Getters & Setters
         public Boolean getVisible()
@@ -27,14 +29,21 @@ namespace XNArkanoid.Entites
         {
             this.texture = texture;
         }
+
+        public typeBrick getType()
+        {
+            return this.type;
+        }
         #endregion
 
 
         #region Constructeur
-        public Brick(Rectangle rectangle, Level level) :base(level)
+        public Brick(Rectangle rectangle, Level level)
+            : base(level)
         {
             this.visible = true;
             this.rectangle = rectangle;
+            this.type = typeBrick.normale;
         }
         #endregion
 

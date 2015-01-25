@@ -7,41 +7,28 @@ using System.Text;
 
 namespace XNArkanoid.Entites
 {
-    abstract class Element
+    class Btn
     {
-        protected Rectangle rectangle;
-        protected Texture2D texture;
-        protected Level level;
-
-        public Element()
-        {
-            this.rectangle = new Rectangle(0, 0, 0, 0);
-        }
-
-        public Element(Level level)
-        {
-            this.rectangle = new Rectangle(0, 0, 0, 0);
-            this.level = level;
-        }
-
+        Rectangle rectangle;
+        Menu menu;
+        Texture2D texture;
 
         public void setTexture(Texture2D texture)
         {
             this.texture = texture;
-            //mise à jour de la taille initiale du rectangle
             this.rectangle.Width = texture.Width;
             this.rectangle.Height = texture.Height;
         }
 
-        public Rectangle getRectangle()
+        public Btn(Menu menu)
         {
-            return this.rectangle;
+            this.menu = menu;
+            this.rectangle = new Rectangle(0, 0, 0, 0);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(this.texture, this.rectangle, Color.White);
         }
-
     }
 }

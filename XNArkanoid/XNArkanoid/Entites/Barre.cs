@@ -22,11 +22,19 @@ namespace XNArkanoid.Entites
         {
             this.speed = speed;
         }
+
+        new public void setTexture(Texture2D texture)
+        {
+            base.setTexture(texture);
+            this.rectangle.X = this.level.getLargeurEcran() / 2 - texture.Width / 2;
+            this.rectangle.Y = this.level.getHauteurEcran() - texture.Height;
+        }
         #endregion
 
 
         #region Constructeur
-        public Barre(int speed, Level level) : base(level)
+        public Barre(int speed, Level level)
+            : base(level)
         {
             this.speed = speed;
         }
@@ -35,8 +43,8 @@ namespace XNArkanoid.Entites
         #region Méthode
         public void deplacer(int deplacement)
         {
-            float depAcVitesse = ((float) deplacement) * this.speed;
-            this.rectangle.X = this.rectangle.X - (int) depAcVitesse;
+            float depAcVitesse = ((float)deplacement) * this.speed;
+            this.rectangle.X = this.rectangle.X - (int)depAcVitesse;
 
             this.rectangle.X = (this.rectangle.X < 0) ? 0 : this.rectangle.X;
             this.rectangle.X = (this.rectangle.X + this.rectangle.Width > this.level.getLargeurEcran()) ? this.level.getLargeurEcran() - this.rectangle.Width : this.rectangle.X;
