@@ -46,9 +46,9 @@ namespace XNArkanoid.Entites
         public Ball(Level level)
             : base(level)
         {
-            this.speed = 0.3F;
-            this.ballDirection.X = 10;
-            this.ballDirection.Y = -10;
+            this.speed = 3F;
+            this.ballDirection.X = 1;
+            this.ballDirection.Y = -1;
         }
         #endregion
 
@@ -58,6 +58,15 @@ namespace XNArkanoid.Entites
         {
             if (barre.getRectangle().Intersects(this.rectangle))
             {
+                while (barre.getRectangle().Intersects(this.rectangle))
+                {
+                    this.rectangle.X -= (int)this.ballDirection.X;
+                    this.rectangle.Y -= (int)this.ballDirection.Y;
+                }
+                float milieuBarre = this.level.getBarre().getRectangle().X + this.level.getBarre().getRectangle().Width / 2;
+                float milieuBall = this.rectangle.X + this.texture.Width / 2;
+                float différenceImpact = (milieuBall - milieuBarre) / this.level.getBarre().getRectangle().Width / 2;
+                this.ballDirection.X = 10 * différenceImpact;
                 this.ballDirection.Y = -this.ballDirection.Y;
                 return true;
             }
@@ -68,6 +77,11 @@ namespace XNArkanoid.Entites
         {
             if (brick.getRectangle().Intersects(this.rectangle))
             {
+                while (brick.getRectangle().Intersects(this.rectangle))
+                {
+                    this.rectangle.X -= (int)this.ballDirection.X;
+                    this.rectangle.Y -= (int)this.ballDirection.Y;
+                }
                 this.ballDirection.Y = -this.ballDirection.Y;
                 brick.setPdv(brick.getPdv() - 1);
                 if (brick.getPdv() == 0)
@@ -107,7 +121,6 @@ namespace XNArkanoid.Entites
             }
             if (newY > this.level.getHauteurEcran())
             {
-                this.ballDirection.Y = -this.ballDirection.Y;
                 this.level.setBalls(this.level.getBalls() - 1);
                 if (this.level.getBalls() == 0)
                 {
