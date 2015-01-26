@@ -212,7 +212,7 @@ namespace XNArkanoid
             switch (ecran)
             {
                 case listeEcran.menu:
-                    this.menu.Draw(spriteBatch);
+                    this.menu.Draw(spriteBatch, fontRavie14);
                     break;
                 case listeEcran.level:
                     this.level.Draw(spriteBatch, fontRavie14);

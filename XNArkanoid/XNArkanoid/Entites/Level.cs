@@ -185,8 +185,15 @@ namespace XNArkanoid.Entites
             }
             this.ball.Draw(spriteBatch);
 
-            String texte = "Level: " + this.levelId + " / Balles: " + this.getBalls() + " / Score: " + this.score;
-            spriteBatch.DrawString(font, texte, new Vector2(100, 2), Color.Black);
+            String texteG = "Level: " + this.levelId;
+            int positionG = this.largeurEcran / 4 - (int)font.MeasureString(texteG).X / 2;
+            spriteBatch.DrawString(font, texteG, new Vector2(positionG, 2), Color.Black);
+            String texte = "Balles: " + this.getBalls();
+            int position = 2 * this.largeurEcran / 4 - (int)font.MeasureString(texteG).X / 2;
+            spriteBatch.DrawString(font, texte, new Vector2(position, 2), Color.Black);
+            String texteD = "Score: " + this.score;
+            int positionD = 3 * this.largeurEcran / 4 - (int)font.MeasureString(texteD).X / 2;
+            spriteBatch.DrawString(font, texteD, new Vector2(positionD, 2), Color.Black);
         }
 
         /// <summary>
