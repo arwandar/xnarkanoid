@@ -20,9 +20,11 @@ namespace XNArkanoid
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         MouseState oldMouseState, mouseState;
-        int hauteurEcran, largeurEcran;
+        int hauteurEcran, largeurEcran, fond;
+        Random r;
 
         List<Texture2D> listeTexture;
+        List<Texture2D> listeFond;
         SpriteFont fontRavie14;
         SpriteFont fontRavie48;
 
@@ -57,6 +59,8 @@ namespace XNArkanoid
             this.hauteurEcran = this.graphics.PreferredBackBufferHeight;
             this.largeurEcran = this.graphics.PreferredBackBufferWidth;
             this.listeTexture = new List<Texture2D>();
+            this.listeFond = new List<Texture2D>();
+            this.r = new Random();
 
             this.menu = new Menu(this.largeurEcran, this.hauteurEcran);
             this.ecran = listeEcran.menu;
@@ -82,6 +86,12 @@ namespace XNArkanoid
             this.addTexture(Content.Load<Texture2D>("images/brick_red"), "brick", "brickVies");
             this.addTexture(Content.Load<Texture2D>("images/btnJouer"), "btn", "btnJouer");
             this.addTexture(Content.Load<Texture2D>("images/btnQuitter"), "btn", "btnQuitter");
+
+            this.listeFond.Add(Content.Load<Texture2D>("images/fond1"));
+            this.listeFond.Add(Content.Load<Texture2D>("images/fond2"));
+            this.listeFond.Add(Content.Load<Texture2D>("images/fond3"));
+
+            this.fond = r.Next(0, this.listeFond.Count);
 
             this.menu.setTextureBtn(this.listeTexture);
             this.fontRavie14 = Content.Load<SpriteFont>("Ravie14");
@@ -114,13 +124,14 @@ namespace XNArkanoid
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
-
+            this.oldMouseState = this.mouseState;
+            this.mouseState = Mouse.GetState();
             // TODO: Add your update logic here   
             switch (ecran)
             {
                 case listeEcran.menu:
                     this.IsMouseVisible = true;
-                    if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                    if (this.oldMouseState.LeftButton == ButtonState.Pressed && this.mouseState.LeftButton == ButtonState.Released)
                     {
                         typeBtn btnClick = this.menu.getBtnClick(Mouse.GetState());
                         switch (btnClick)
@@ -128,6 +139,7 @@ namespace XNArkanoid
                             case typeBtn.btnJouer:
                                 this.level = new Level(1, this.largeurEcran, this.hauteurEcran, this.listeTexture);
                                 this.ecran = listeEcran.level;
+                                this.fond = r.Next(0, this.listeFond.Count);
                                 break;
                             case typeBtn.btnExit:
                                 this.Exit();
@@ -138,13 +150,13 @@ namespace XNArkanoid
                     }
                     break;
                 case listeEcran.level:
-                    this.IsMouseVisible = false;
-                    this.oldMouseState = this.mouseState;
-                    this.mouseState = Mouse.GetState();
                     int deplacement = this.oldMouseState.X - this.mouseState.X;
-                    if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                    if (this.oldMouseState.LeftButton == ButtonState.Pressed && this.mouseState.LeftButton == ButtonState.Released)
                     {
-                        this.level.getBall().setIsMoving(true);
+                        if (this.oldMouseState.X > 0 && this.oldMouseState.X < this.largeurEcran && this.oldMouseState.Y > 0 && this.oldMouseState.Y < this.hauteurEcran)
+                        {
+                            this.level.getBall().setIsMoving(true);
+                        }
                     }
                     int finLevel = this.level.Update(deplacement);
 
@@ -159,19 +171,21 @@ namespace XNArkanoid
 
                     break;
                 case listeEcran.gameover:
-                    if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                    if (this.oldMouseState.LeftButton == ButtonState.Pressed && this.mouseState.LeftButton == ButtonState.Released)
                     {
                         this.ecran = listeEcran.menu;
+                        this.fond = r.Next(0, this.listeFond.Count);
                     }
                     break;
                 case listeEcran.niveausuivant:
-                    if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                    if (this.oldMouseState.LeftButton == ButtonState.Pressed && this.mouseState.LeftButton == ButtonState.Released)
                     {
                         int oldScore = this.level.getScore();
                         int levelnb = this.level.getLevelId() + 1;
                         this.level = new Level(levelnb, this.largeurEcran, this.hauteurEcran, this.listeTexture);
                         this.level.setScore(oldScore);
                         this.ecran = listeEcran.level;
+                        this.fond = r.Next(0, this.listeFond.Count);
                     }
                     break;
                 default:
@@ -190,6 +204,10 @@ namespace XNArkanoid
             GraphicsDevice.Clear(Color.FloralWhite);
 
             spriteBatch.Begin();
+
+
+
+            spriteBatch.Draw(this.listeFond.ElementAt(this.fond), new Rectangle(0, 0, this.largeurEcran, this.hauteurEcran), Color.White);
 
             switch (ecran)
             {
