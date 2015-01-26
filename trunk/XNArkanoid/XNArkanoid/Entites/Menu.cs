@@ -9,8 +9,10 @@ namespace XNArkanoid.Entites
 {
     class Menu
     {
+        #region Déclarations
         protected int hauteurEcran, largeurEcran;
         private List<Btn> listeBtn;
+        #endregion
 
         #region Constructeur
         public Menu(int hauteurEcran, int largeurEcran)
@@ -28,7 +30,12 @@ namespace XNArkanoid.Entites
         }
         #endregion
 
-        #region Méthode
+        #region Méthodes de gestion
+        /// <summary>
+        /// Ecrit le texte sur le menu principal
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        /// <param name="font"></param>
         public void Draw(SpriteBatch spriteBatch, SpriteFont font)
         {
             foreach (Btn btn in listeBtn)
@@ -44,6 +51,10 @@ namespace XNArkanoid.Entites
             spriteBatch.DrawString(font, "Au niveau suivant", new Vector2(500, 350), Color.Black);
         }
 
+        /// <summary>
+        /// Affecte la texture associée aux boutons en fonction de leur type
+        /// </summary>
+        /// <param name="listeTexture"></param>
         public void setTextureBtn(List<Texture2D> listeTexture)
         {
             foreach (Btn btn in this.listeBtn)
@@ -74,6 +85,11 @@ namespace XNArkanoid.Entites
             }
         }
 
+        /// <summary>
+        /// Permet de savoir quel bouton a été cliqué
+        /// </summary>
+        /// <param name="mouseState"></param>
+        /// <returns></returns>
         public typeBtn getBtnClick(Microsoft.Xna.Framework.Input.MouseState mouseState)
         {
             typeBtn type = typeBtn.nul;
