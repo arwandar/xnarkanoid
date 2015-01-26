@@ -29,12 +29,19 @@ namespace XNArkanoid.Entites
         #endregion
 
         #region Méthode
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, SpriteFont font)
         {
             foreach (Btn btn in listeBtn)
             {
                 btn.Draw(spriteBatch);
             }
+
+            spriteBatch.DrawString(font, "Bouger la souris pour", new Vector2(400, 100), Color.Black);
+            spriteBatch.DrawString(font, "Faire bouger la barre", new Vector2(420, 150), Color.Black);
+
+            spriteBatch.DrawString(font, "A la fin d'un niveau", new Vector2(460, 250), Color.Black);
+            spriteBatch.DrawString(font, "Cliquer pour passer", new Vector2(480, 300), Color.Black);
+            spriteBatch.DrawString(font, "Au niveau suivant", new Vector2(500, 350), Color.Black);
         }
 
         public void setTextureBtn(List<Texture2D> listeTexture)
