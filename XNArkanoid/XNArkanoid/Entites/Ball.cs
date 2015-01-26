@@ -38,7 +38,7 @@ namespace XNArkanoid.Entites
         {
             base.setTexture(texture);
             this.rectangle.X = this.level.getLargeurEcran() / 2 - texture.Width / 2;
-            this.rectangle.Y = this.level.getBarre().getRectangle().Y - 1;
+            this.rectangle.Y = this.level.getBarre().getRectangle().Y - this.texture.Height - 1;
         }
         #endregion
 
@@ -103,6 +103,20 @@ namespace XNArkanoid.Entites
                 brick.setPdv(brick.getPdv() - 1);
                 if (brick.getPdv() == 0)
                 {
+                    if (brick.getType() == typeBrick.bonus)
+                    {
+                        Random r = new Random();
+                        switch(r.Next(0, 4)){
+                            case 1:
+                                this.level.setBalls(this.level.getBalls() + 1);
+                                break;
+                            case 2:
+                                Console.WriteLine(this.level.getScore());
+                                this.level.setScore(this.level.getScore() + r.Next(1, 200));
+                                Console.WriteLine(this.level.getScore());
+                                break;
+                        }
+                    }
                     this.level.getBricks().Remove(brick);
                     //Augmente le score
                     this.level.setScore(this.level.getScore() + 10);
@@ -118,52 +132,60 @@ namespace XNArkanoid.Entites
         /// <returns>Renvoie un booleen indiquant si la partie est en cours ou non</returns>
         public Boolean deplacementBalle()
         {
-            //Calcule la nouvelle position de la balle
-            int newX = this.rectangle.X + (int)(this.ballDirection.X * this.speed);
-            int newY = this.rectangle.Y + (int)(this.ballDirection.Y * this.speed);
-            //Déplace la balle
-            this.rectangle.X = newX; this.rectangle.Y = newY;
-            //Gère une possile collision avec la barre
-            Collision(this.level.getBarre());
-            //Gère une possile collision avec une brique
-            foreach (Brick brick in this.level.getBricks())
+            if (this.isMoving)
             {
-                if (Collision(brick))
+                //Calcule la nouvelle position de la balle
+                int newX = this.rectangle.X + (int)(this.ballDirection.X * this.speed);
+                int newY = this.rectangle.Y + (int)(this.ballDirection.Y * this.speed);
+                //Déplace la balle
+                this.rectangle.X = newX; this.rectangle.Y = newY;
+                //Gère une possile collision avec la barre
+                Collision(this.level.getBarre());
+                //Gère une possile collision avec une brique
+                foreach (Brick brick in this.level.getBricks())
                 {
-                    break;
+                    if (Collision(brick))
+                    {
+                        break;
+                    }
                 }
-            }
-            //Gère une possible collision avec le côté gauche
-            if (newX < 0)
-            {
-                this.ballDirection.X = -this.ballDirection.X;
-            }
-            //Gère une possible collision avec le côté droit
-            if (newX + texture.Width > this.level.getLargeurEcran())
-            {
-                this.ballDirection.X = -this.ballDirection.X;
-            }
-            //Gère une possible collision avec le côté haut
-            if (newY < 0)
-            {
-                this.ballDirection.Y = -this.ballDirection.Y;
-            }
-            //Gère une possible collision avec le côté bas
-            if (newY > this.level.getHauteurEcran())
-            {
-                //Enlève une balle au joueur et indique la fin de partie s'il n'en a plus
-                this.level.setBalls(this.level.getBalls() - 1);
-                if (this.level.getBalls() == 0)
+                //Gère une possible collision avec le côté gauche
+                if (newX < 0)
                 {
-                    return false;
+                    this.ballDirection.X = -this.ballDirection.X;
                 }
-                //Replace la barre et la balle dans leur position initiale
-                this.rectangle.X = this.level.getLargeurEcran() / 2 - texture.Width / 2;
-                this.rectangle.Y = this.level.getBarre().getRectangle().Y - this.texture.Height - 1;
-                this.level.getBarre().reInitPosition();
-                this.isMoving = false;
+                //Gère une possible collision avec le côté droit
+                if (newX + texture.Width > this.level.getLargeurEcran())
+                {
+                    this.ballDirection.X = -this.ballDirection.X;
+                }
+                //Gère une possible collision avec le côté haut
+                if (newY < 0)
+                {
+                    this.ballDirection.Y = -this.ballDirection.Y;
+                }
+                //Gère une possible collision avec le côté bas
+                if (newY > this.level.getHauteurEcran())
+                {
+                    //Enlève une balle au joueur et indique la fin de partie s'il n'en a plus
+                    this.level.setBalls(this.level.getBalls() - 1);
+                    if (this.level.getBalls() == 0)
+                    {
+                        return false;
+                    }
+                    //Replace la barre et la balle dans leur position initiale
+                    this.rectangle.X = this.level.getLargeurEcran() / 2 - texture.Width / 2;
+                    this.rectangle.Y = this.level.getBarre().getRectangle().Y - this.texture.Height - 1;
+                    this.level.getBarre().reInitPosition();
+                    this.isMoving = false;
+                }
+                return true;
             }
-            return true;
+            else
+            {
+                this.rectangle.X = this.level.getBarre().getRectangle().X + this.level.getBarre().getRectangle().Width / 2 - this.texture.Width / 2;
+                return true;
+            }
         }
         #endregion
     }
